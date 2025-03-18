@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import UIBuilder from "@/components/page-builder";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/about")({
@@ -6,5 +6,5 @@ export const Route = createFileRoute("/about")({
 });
 
 function About() {
-  return <Button>Click me</Button>;
+  return <UIBuilder />;
 }
