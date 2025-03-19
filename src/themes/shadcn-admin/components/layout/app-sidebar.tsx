@@ -9,6 +9,7 @@ import { NavGroup } from "@/themes/shadcn-admin/components/layout/nav-group";
 import { NavUser } from "@/themes/shadcn-admin/components/layout/nav-user";
 import { TeamSwitcher } from "@/themes/shadcn-admin/components/layout/team-switcher";
 import { sidebarData } from "./data/sidebar-data";
+import { navGroups } from "@/App";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -17,7 +18,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <TeamSwitcher teams={sidebarData.teams} />
       </SidebarHeader>
       <SidebarContent>
-        {sidebarData.navGroups.map((props) => (
+        {navGroups.map((props) => (
           <NavGroup key={props.title} {...props} />
         ))}
       </SidebarContent>

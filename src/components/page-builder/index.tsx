@@ -25,7 +25,11 @@ interface UIBuilderProps {
   useCanvas?: boolean;
 }
 
-const UIBuilder = ({ initialLayers, onChange, useCanvas = true }: UIBuilderProps) => {
+const PageBuilder = ({
+  initialLayers,
+  onChange,
+  useCanvas = true,
+}: UIBuilderProps) => {
   const store = useStore(useLayerStore, (state) => state);
   const editorStore = useStore(useEditorStore, (state) => state);
   const [initialized, setInitialized] = useState(false);
@@ -48,7 +52,12 @@ const UIBuilder = ({ initialLayers, onChange, useCanvas = true }: UIBuilderProps
     }
   }, [store, onChange]);
 
-  const layout = !store || !initialized ? <LoadingSkeleton /> : <MainLayout useCanvas={useCanvas} />;
+  const layout =
+    !store || !initialized ? (
+      <LoadingSkeleton />
+    ) : (
+      <MainLayout useCanvas={useCanvas} />
+    );
 
   return (
     <ThemeProvider
@@ -65,25 +74,30 @@ const UIBuilder = ({ initialLayers, onChange, useCanvas = true }: UIBuilderProps
 
 function MainLayout({ useCanvas }: { useCanvas: boolean }) {
   const mainPanels = useMemo(
-    () =>  [
-    {
-      title: "Page Config",
-      content: (
-        <PageConfigPanel className="pt-4 pb-20 md:pb-4 overflow-y-auto relative size-full" />
-      ),
-      defaultSize: 25,
-    },
-    {
-      title: "UI Editor",
-      content: <EditorPanel className="pb-20 md:pb-0 overflow-y-auto" useCanvas={useCanvas} />,
-      defaultSize: 50,
-    },
-    {
-      title: "Props",
-      content: (
-        <PropsPanel className="px-4 pt-4 pb-20 md:pb-4 overflow-y-auto relative size-full" />
-      ),
-      defaultSize: 25,
+    () => [
+      {
+        title: "Page Config",
+        content: (
+          <PageConfigPanel className="pt-4 pb-20 md:pb-4 overflow-y-auto relative size-full" />
+        ),
+        defaultSize: 25,
+      },
+      {
+        title: "UI Editor",
+        content: (
+          <EditorPanel
+            className="pb-20 md:pb-0 overflow-y-auto"
+            useCanvas={useCanvas}
+          />
+        ),
+        defaultSize: 50,
+      },
+      {
+        title: "Props",
+        content: (
+          <PropsPanel className="px-4 pt-4 pb-20 md:pb-4 overflow-y-auto relative size-full" />
+        ),
+        defaultSize: 25,
       },
     ],
     [useCanvas]
@@ -143,7 +157,11 @@ function MainLayout({ useCanvas }: { useCanvas: boolean }) {
 
 export function PageConfigPanel({ className }: { className: string }) {
   return (
-    <Tabs data-testid="page-config-panel" defaultValue="layers" className={className}>
+    <Tabs
+      data-testid="page-config-panel"
+      defaultValue="layers"
+      className={className}
+    >
       <TabsList className="grid grid-cols-2 mx-4">
         <TabsTrigger value="layers">Layers</TabsTrigger>
         <TabsTrigger value="appearance">Appearance</TabsTrigger>
@@ -163,7 +181,10 @@ export function PageConfigPanel({ className }: { className: string }) {
 
 export function LoadingSkeleton() {
   return (
-    <div data-testid="loading-skeleton" className="flex flex-col flex-1 gap-1 bg-secondary/90">
+    <div
+      data-testid="loading-skeleton"
+      className="flex flex-col flex-1 gap-1 bg-secondary/90"
+    >
       <div className="w-full h-16 animate-pulse bg-background rounded-md"></div>
       <div className="flex flex-1 gap-1">
         <div className="w-1/4 animate-pulse bg-background rounded-md"></div>
@@ -174,4 +195,4 @@ export function LoadingSkeleton() {
   );
 }
 
-export default UIBuilder;
+export default PageBuilder;

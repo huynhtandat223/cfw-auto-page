@@ -21,8 +21,6 @@ export const ConfigPanel = () => {
     pages,
   } = useLayerStore();
 
-  
-
   const selectedLayer = findLayerById(selectedPageId) as PageLayer;
 
   const handleDeleteLayer = useCallback(
@@ -81,15 +79,21 @@ const PageLayerForm: React.FC<PageLayerFormProps> = ({
 }) => {
   const schema = z.object({
     name: z.string().min(1, "Name is required"),
+    route: z.string().optional(),
     className: z.string().optional(),
   });
 
   const handleSetValues = useCallback(
     (data: Partial<z.infer<typeof schema>>) => {
-      const { name, className } = data;
+      const { name, className, route } = data;
 
       // Merge the changed fields into the existing layer
-      const mergedValues = { ...selectedLayer, name, props: { className } };
+      const mergedValues = {
+        ...selectedLayer,
+        name,
+        route,
+        props: { className },
+      };
       const { props, ...rest } = mergedValues;
 
       updateLayerProps(selectedLayer.id, props, rest);
@@ -101,11 +105,13 @@ const PageLayerForm: React.FC<PageLayerFormProps> = ({
     <AutoForm
       formSchema={addDefaultValues(schema, {
         name: selectedLayer.name,
+        route: selectedLayer.route,
         className: selectedLayer.props.className,
       })}
       onValuesChange={handleSetValues}
       values={{
         name: selectedLayer.name,
+        route: selectedLayer.route,
         className: selectedLayer.props.className,
       }}
       fieldConfig={{
@@ -117,10 +123,7 @@ const PageLayerForm: React.FC<PageLayerFormProps> = ({
           description: "The name of the page.",
         },
         className: {
-          fieldType: ({
-            label,
-            isRequired,
-          }: AutoFormInputComponentProps) => (
+          fieldType: ({ label, isRequired }: AutoFormInputComponentProps) => (
             <ClassNameField
               label={label}
               isRequired={isRequired}
