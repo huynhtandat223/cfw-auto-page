@@ -6,13 +6,14 @@ import {
 } from "@tanstack/react-router";
 import "./index.css";
 
-import { FontProvider } from "./themes/shadcn-admin/context/font-context";
-import { ThemeProvider } from "./themes/shadcn-admin/context/theme-context";
 import { IconChecklist, IconLayoutDashboard } from "@tabler/icons-react";
-import { Test } from "./pages/AutoPage";
 import PageBuilder from "./components/page-builder";
-import { useStore } from "zustand";
-import { PageLayer, useLayerStore } from "./lib/ui-builder/store/layer-store";
+import { FontProvider } from "./context/font-context";
+import { ThemeProvider } from "./context/theme-context";
+import { useLayerStore } from "./lib/ui-builder/store/layer-store";
+import { Test } from "./pages/AutoPage";
+
+const pageLayers = useLayerStore.getState().pages;
 
 export const navGroups = [
   {
@@ -29,53 +30,24 @@ export const navGroups = [
   },
   {
     title: "General",
-    items: [
-      {
-        title: "Dashboard",
-        url: "/",
-        icon: IconLayoutDashboard,
-      },
-      {
-        title: "Tasks",
-        url: "/tasks",
+    items: pageLayers
+      .filter((page) => page.route!)
+      .map((page) => ({
+        title: page.name,
+        url: page.route,
         icon: IconChecklist,
-      },
-    ],
+        component: Test,
+      })),
   },
 ];
 
-function createRouter1(pageLayers: PageLayer[]) {
-  const localNavGroups = [
-    {
-      title: "Page builder",
-      icon: IconLayoutDashboard,
-      items: [
-        {
-          title: "Page builder",
-          url: "/page-builder",
-          icon: IconLayoutDashboard,
-          component: PageBuilder,
-        },
-      ],
-    },
-    {
-      title: "General",
-      items: pageLayers
-        .filter((page) => page.route!)
-        .map((page) => ({
-          title: page.name,
-          url: page.route,
-          icon: IconChecklist,
-        })),
-    },
-  ];
-
+function createDynamicRouter() {
   const rootRoute = createRootRoute();
-  const dynamicRoutes = localNavGroups.flatMap((group) =>
+  const dynamicRoutes = navGroups.flatMap((group) =>
     group.items.map(({ url, component }) =>
       createRoute({
         getParentRoute: () => rootRoute,
-        path: url,
+        path: url!,
         component: component || Test,
       }),
     ),
@@ -86,10 +58,9 @@ function createRouter1(pageLayers: PageLayer[]) {
   return createRouter({ routeTree });
 }
 
-export const App = () => {
-  const pages = useStore(useLayerStore, (state) => state.pages);
-  const router = createRouter1(pages);
+const router = createDynamicRouter();
 
+export const App = () => {
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <FontProvider>

@@ -1,3 +1,7 @@
+import { navGroups } from "@/App";
+import { NavGroup } from "@/components/layout/nav-group";
+import { NavUser } from "@/components/layout/nav-user";
+import { TeamSwitcher } from "@/components/layout/team-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -5,11 +9,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { NavGroup } from "@/themes/shadcn-admin/components/layout/nav-group";
-import { NavUser } from "@/themes/shadcn-admin/components/layout/nav-user";
-import { TeamSwitcher } from "@/themes/shadcn-admin/components/layout/team-switcher";
 import { sidebarData } from "./data/sidebar-data";
-import { navGroups } from "@/App";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (

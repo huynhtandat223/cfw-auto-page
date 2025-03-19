@@ -1,3 +1,4 @@
+import { navGroups } from "@/App";
 import {
   CommandDialog,
   CommandEmpty,
@@ -18,7 +19,6 @@ import { useNavigate } from "@tanstack/react-router";
 import React from "react";
 import { useSearch } from "../context/search-context";
 import { useTheme } from "../context/theme-context";
-import { sidebarData } from "./layout/data/sidebar-data";
 
 export function CommandMenu() {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export function CommandMenu() {
       <CommandList>
         <ScrollArea type="hover" className="h-72 pr-1">
           <CommandEmpty>No results found.</CommandEmpty>
-          {sidebarData.navGroups.map((group) => (
+          {navGroups.map((group) => (
             <CommandGroup key={group.title} heading={group.title}>
               {group.items.map((navItem, i) => {
                 if (navItem.url)

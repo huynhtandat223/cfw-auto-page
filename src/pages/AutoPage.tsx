@@ -1,22 +1,22 @@
+import { AppSidebar } from "@/components/layout/app-sidebar";
+import { Header } from "@/components/layout/header";
+import { Main } from "@/components/layout/main";
 import LayerRenderer from "@/components/page-builder/layer-renderer";
+import { ProfileDropdown } from "@/components/profile-dropdown";
+import { Search } from "@/components/search";
+import SkipToMain from "@/components/skip-to-main";
+import { ThemeSwitch } from "@/components/theme-switch";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { SearchProvider } from "@/context/search-context";
 import { useLayerStore } from "@/lib/ui-builder/store/layer-store";
 import { cn } from "@/lib/utils";
-import { AppSidebar } from "@/themes/shadcn-admin/components/layout/app-sidebar";
-import { Header } from "@/themes/shadcn-admin/components/layout/header";
-import { Main } from "@/themes/shadcn-admin/components/layout/main";
-import { ProfileDropdown } from "@/themes/shadcn-admin/components/profile-dropdown";
-import { Search } from "@/themes/shadcn-admin/components/search";
-import SkipToMain from "@/themes/shadcn-admin/components/skip-to-main";
-import { ThemeSwitch } from "@/themes/shadcn-admin/components/theme-switch";
-import { SearchProvider } from "@/themes/shadcn-admin/context/search-context";
 import { Outlet, ReactNode } from "@tanstack/react-router";
 import Cookies from "js-cookie";
 import { useStore } from "zustand";
 
 export function Test() {
   const { pages } = useStore(useLayerStore, (state) => state);
-  const page = pages[0];
+  const page = pages[1];
 
   return (
     <ShadcnAdminLayout>
