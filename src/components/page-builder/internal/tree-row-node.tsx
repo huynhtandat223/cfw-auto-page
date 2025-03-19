@@ -38,7 +38,7 @@ interface TreeRowNodeProps {
     options?: {
       name?: string;
       children?: Layer[];
-    }
+    },
   ) => void;
 }
 
@@ -85,7 +85,7 @@ export const TreeRowNode: React.FC<TreeRowNodeProps> = ({
       updateLayer(node.id, {}, { name: newName });
       setIsRenaming(false);
     },
-    [node.id, updateLayer]
+    [node.id, updateLayer],
   );
 
   const handleCancelRename = useCallback(() => {
@@ -129,17 +129,18 @@ export const TreeRowNode: React.FC<TreeRowNodeProps> = ({
         <Button
           variant="ghost"
           size="sm"
-          className={cn("pl-0 gap-0",
+          className={cn(
+            "pl-0 gap-0",
             node.id === selectedLayerId
               ? "text-primary"
-              : "text-muted-foreground"
+              : "text-muted-foreground",
           )}
           onClick={handleSelect}
         >
           <div
             className={cn(
               "w-4 h-full flex items-center justify-center cursor-move opacity-0 rounded group-hover:opacity-100 hover:bg-muted-foreground hover:text-muted transition-opacity duration-200 ease-in-out",
-              popoverOrMenuOpen ? "opacity-100" : "opacity-0"
+              popoverOrMenuOpen ? "opacity-100" : "opacity-0",
             )}
             draggable={draggable}
           >
@@ -158,7 +159,7 @@ export const TreeRowNode: React.FC<TreeRowNodeProps> = ({
             size="icon"
             className={cn(
               "opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out",
-              popoverOrMenuOpen ? "opacity-100" : "opacity-0"
+              popoverOrMenuOpen ? "opacity-100" : "opacity-0",
             )}
           >
             <Plus className="h-4 w-4" />
@@ -171,7 +172,7 @@ export const TreeRowNode: React.FC<TreeRowNodeProps> = ({
           <Button
             className={cn(
               "opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out",
-              popoverOrMenuOpen ? "opacity-100" : "opacity-0"
+              popoverOrMenuOpen ? "opacity-100" : "opacity-0",
             )}
             variant="ghost"
             size="icon"
@@ -207,7 +208,7 @@ const RowOffset = ({ level }: { level: number }) => {
           key={index}
           className={cn(
             "w-5 h-full border-l border-dashed border-primary bg-background",
-            index === level - 1 && "border-b "
+            index === level - 1 && "border-b ",
           )}
         />
       ))}

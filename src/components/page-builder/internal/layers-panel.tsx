@@ -56,7 +56,7 @@ interface LayersTreeProps {
   updateLayer: (
     layerId: string,
     newProps: Record<string, any>,
-    layerRest?: Partial<Omit<Layer, "props">>
+    layerRest?: Partial<Omit<Layer, "props">>,
   ) => void;
   selectLayer: (layerId: string) => void;
   removeLayer: (layerId: string) => void;
@@ -126,7 +126,7 @@ export const LayersTree: React.FC<LayersTreeProps> = React.memo(
       if (selectedLayerId) {
         const parentLayers = findAllParentLayersRecursive(
           layers,
-          selectedLayerId
+          selectedLayerId,
         );
         const parentIds = parentLayers.map((layer) => layer.id);
         setOpenIds((prevOpenIds) => {
@@ -164,7 +164,7 @@ export const LayersTree: React.FC<LayersTreeProps> = React.memo(
           data-testid="layers-tree"
           className={cn(
             className,
-            "flex flex-col size-full overflow-x-auto pl-4"
+            "flex flex-col size-full overflow-x-auto pl-4",
           )}
         >
           {layers.length > 0 ? (
@@ -191,7 +191,7 @@ export const LayersTree: React.FC<LayersTreeProps> = React.memo(
               <div
                 className={cn(
                   buttonVariants({ variant: "default", size: "sm" }),
-                  "cursor-pointer w-full"
+                  "cursor-pointer w-full",
                 )}
               >
                 <span className="sr-only">Add Component</span>
@@ -211,7 +211,7 @@ export const LayersTree: React.FC<LayersTreeProps> = React.memo(
       prevProps.selectedLayerId === nextProps.selectedLayerId &&
       prevProps.className === nextProps.className
     );
-  }
+  },
 );
 
 LayersTree.displayName = "LayersTree";

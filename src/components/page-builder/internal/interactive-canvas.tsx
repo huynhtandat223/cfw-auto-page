@@ -28,7 +28,6 @@ export function InteractiveCanvas({
   disablePinch,
   disableDrag,
 }: InteractiveCanvasProps) {
-
   const windowFrame = frameId
     ? (document.getElementById(frameId) as HTMLIFrameElement)?.contentDocument
     : window;
@@ -65,7 +64,7 @@ export function InteractiveCanvas({
     // Reset scale and translation on preview mode change to center the contents
     switch (previewMode) {
       case "tablet":
-        setScale(0.80);
+        setScale(0.8);
         setTranslation({ x: -30, y: 5 });
         break;
       case "desktop":
@@ -78,7 +77,11 @@ export function InteractiveCanvas({
     }
   }, [previewMode]);
 
-  const useGestureHook = createUseGesture([wheelAction, pinchAction, dragAction]);
+  const useGestureHook = createUseGesture([
+    wheelAction,
+    pinchAction,
+    dragAction,
+  ]);
 
   const bind = useGestureHook(
     {
@@ -135,7 +138,7 @@ export function InteractiveCanvas({
         eventOptions: { passive: false, capture: true },
         enabled: !disableDrag,
       },
-    }
+    },
   );
 
   const transformStyle = useCallback(() => {
@@ -159,7 +162,11 @@ export function InteractiveCanvas({
       {...bind()}
       className="w-full h-full overflow-hidden relative touch-none cursor-default transition-transform duration-100 ease-in-out"
     >
-      <div data-testid="interactive-canvas-container" className="touch-none" style={transformStyle()}>
+      <div
+        data-testid="interactive-canvas-container"
+        className="touch-none"
+        style={transformStyle()}
+      >
         {children}
       </div>
       <ZoomControls onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />

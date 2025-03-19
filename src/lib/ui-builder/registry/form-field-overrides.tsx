@@ -15,10 +15,15 @@ import IconNameField from "@/components/ui/ui-builder/internal/iconname-field";
 import { Textarea } from "@/components/ui/textarea";
 
 export const classNameFieldOverrides = (
-  layer: ComponentLayer 
+  layer: ComponentLayer,
 ): FieldConfigItem => {
   return {
-    fieldType: ({ label, isRequired, field, fieldProps }: AutoFormInputComponentProps) => (
+    fieldType: ({
+      label,
+      isRequired,
+      field,
+      fieldProps,
+    }: AutoFormInputComponentProps) => (
       <ClassNameField
         label={label}
         isRequired={isRequired}
@@ -31,7 +36,9 @@ export const classNameFieldOverrides = (
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const childrenFieldOverrides = (layer: ComponentLayer): FieldConfigItem => {
+export const childrenFieldOverrides = (
+  layer: ComponentLayer,
+): FieldConfigItem => {
   return {
     fieldType: ({
       label,
@@ -46,7 +53,11 @@ export const childrenFieldOverrides = (layer: ComponentLayer): FieldConfigItem =
           {isRequired && <span className="text-destructive"> *</span>}
         </FormLabel>
         <FormControl>
-          <ChildrenSearchableSelect layer={layer} onChange={field.onChange} {...fieldProps} />
+          <ChildrenSearchableSelect
+            layer={layer}
+            onChange={field.onChange}
+            {...fieldProps}
+          />
         </FormControl>
         {fieldConfigItem.description && (
           <FormDescription>{fieldConfigItem.description}</FormDescription>
@@ -57,10 +68,15 @@ export const childrenFieldOverrides = (layer: ComponentLayer): FieldConfigItem =
 };
 
 export const iconNameFieldOverrides = (
-  layer: ComponentLayer
+  layer: ComponentLayer,
 ): FieldConfigItem => {
   return {
-    fieldType: ({ label, isRequired, field, fieldProps }: AutoFormInputComponentProps) => (
+    fieldType: ({
+      label,
+      isRequired,
+      field,
+      fieldProps,
+    }: AutoFormInputComponentProps) => (
       <IconNameField
         label={label}
         isRequired={isRequired}
@@ -72,7 +88,9 @@ export const iconNameFieldOverrides = (
   };
 };
 
-export const childrenAsTextareaFieldOverrides = (layer: ComponentLayer): FieldConfigItem => {
+export const childrenAsTextareaFieldOverrides = (
+  layer: ComponentLayer,
+): FieldConfigItem => {
   return {
     fieldType: ({
       label,
@@ -92,7 +110,7 @@ export const childrenAsTextareaFieldOverrides = (layer: ComponentLayer): FieldCo
             value={layer.children as string}
             onChange={field.onChange}
             {...fieldProps}
-        />
+          />
         </FormControl>
         {fieldConfigItem.description && (
           <FormDescription>{fieldConfigItem.description}</FormDescription>

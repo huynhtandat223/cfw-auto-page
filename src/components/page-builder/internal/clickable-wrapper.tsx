@@ -41,7 +41,6 @@ export const ClickableWrapper: React.FC<ClickableWrapperProps> = ({
   } | null>(null);
   const wrapperRef = useRef<HTMLSpanElement | null>(null);
 
-
   // listen to resize and position changes
   useEffect(() => {
     // update bounding rect on page resize and scroll
@@ -96,7 +95,6 @@ export const ClickableWrapper: React.FC<ClickableWrapperProps> = ({
     };
   }, [isSelected, layer.id, children, listenToScrollParent]);
 
-
   // listen to window resize
   useEffect(() => {
     const element = wrapperRef.current?.firstElementChild as HTMLElement | null;
@@ -111,11 +109,9 @@ export const ClickableWrapper: React.FC<ClickableWrapperProps> = ({
 
     window.addEventListener("resize", updateBoundingRect);
     return () => {
-      
       window.removeEventListener("resize", updateBoundingRect);
     };
   }, []);
-
 
   // listen to panel size changes
   useEffect(() => {
@@ -176,7 +172,7 @@ export const ClickableWrapper: React.FC<ClickableWrapperProps> = ({
           onClick={handleClick}
           className={cn(
             "fixed box-border hover:border-blue-300 hover:border-2",
-            isSelected ? "border-2 border-blue-500 hover:border-blue-500" : ""
+            isSelected ? "border-2 border-blue-500 hover:border-blue-500" : "",
           )}
           onWheel={(e) => {
             const scrollParent = getScrollParent(e.target as HTMLElement);

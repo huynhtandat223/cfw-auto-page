@@ -15,7 +15,7 @@ export const IframeWrapper: React.FC<IframeWrapperProps> = React.memo(
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const mountNodeRef = useRef<HTMLElement | null>(null); // Ref to store the mount node
     const [iframeSize, setIframeSize] = useState<{ width: number } | null>(
-      null
+      null,
     );
     const [isMounted, setIsMounted] = useState<boolean>(false); // State to track mount node readiness
 
@@ -49,16 +49,16 @@ export const IframeWrapper: React.FC<IframeWrapperProps> = React.memo(
         axis: "x",
         from: () => [0, 0],
         filterTaps: true,
-      }
+      },
     );
 
     useLayoutEffect(() => {
-        if (resizable && iframeRef.current) {
-          setIframeSize({
-            width: iframeRef.current.parentElement?.offsetWidth || 600, // Fallback to 600px or any default width
-          });
-        }
-      }, [resizable]);
+      if (resizable && iframeRef.current) {
+        setIframeSize({
+          width: iframeRef.current.parentElement?.offsetWidth || 600, // Fallback to 600px or any default width
+        });
+      }
+    }, [resizable]);
 
     useLayoutEffect(() => {
       const iframe = iframeRef.current;
@@ -82,7 +82,7 @@ export const IframeWrapper: React.FC<IframeWrapperProps> = React.memo(
           const injectStylesheets = () => {
             // Select all linked stylesheets in the parent document
             const links = Array.from(
-              document.querySelectorAll('link[rel="stylesheet"]')
+              document.querySelectorAll('link[rel="stylesheet"]'),
             );
             // Select all style tags in the parent document
             const styles = Array.from(document.querySelectorAll("style"));
@@ -154,9 +154,13 @@ export const IframeWrapper: React.FC<IframeWrapperProps> = React.memo(
     return (
       <div className="relative block">
         {resizable && (
-          <Resizer {...bindResizer()} className="absolute top-0 right-[-7px]" style={{
-            left: iframeSize?.width ? `${iframeSize.width}px` : undefined
-          }}>
+          <Resizer
+            {...bindResizer()}
+            className="absolute top-0 right-[-7px]"
+            style={{
+              left: iframeSize?.width ? `${iframeSize.width}px` : undefined,
+            }}
+          >
             <GripVertical className="w-4 h-4" />
           </Resizer>
         )}
@@ -184,7 +188,7 @@ export const IframeWrapper: React.FC<IframeWrapperProps> = React.memo(
             {...bindResizer()}
             className="absolute bottom-7 right-[-7px] "
             style={{
-              left: iframeSize?.width ? `${iframeSize.width}px` : undefined
+              left: iframeSize?.width ? `${iframeSize.width}px` : undefined,
             }}
           >
             <GripVertical className="w-4 h-4" />
@@ -192,7 +196,7 @@ export const IframeWrapper: React.FC<IframeWrapperProps> = React.memo(
         )}
       </div>
     );
-  }
+  },
 );
 
 IframeWrapper.displayName = "IframeWrapper";
@@ -215,7 +219,7 @@ const Resizer = ({
       }}
       className={cn(
         "flex items-center justify-center w-4 h-4 cursor-ew-resize rounded-sm border bg-border hover:bg-muted touch-none",
-        className
+        className,
       )}
       {...props}
     >

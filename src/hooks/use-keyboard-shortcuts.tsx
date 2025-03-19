@@ -15,7 +15,11 @@ export function useKeyboardShortcuts(combinations: KeyCombination[]) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       combinations.forEach((combo) => {
-        const { keys: { ctrlKey, metaKey, shiftKey, altKey }, key, handler } = combo;
+        const {
+          keys: { ctrlKey, metaKey, shiftKey, altKey },
+          key,
+          handler,
+        } = combo;
         const isMatch =
           (ctrlKey === undefined || event.ctrlKey === ctrlKey) &&
           (metaKey === undefined || event.metaKey === metaKey) &&

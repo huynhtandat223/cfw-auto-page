@@ -60,11 +60,7 @@ export const CodeBlock = memo(function CodeBlock({
       <div className="flex w-full items-center justify-between bg-background px-6 py-2 pr-4 text-foreground border-b border-border">
         <span className="text-xs lowercase">{language}</span>
         <div className="flex items-center space-x-1">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onCopy}
-          >
+          <Button variant="ghost" size="icon" onClick={onCopy}>
             {isCopied ? <CheckIcon /> : <CopyIcon />}
             <span className="sr-only">Copy code</span>
           </Button>

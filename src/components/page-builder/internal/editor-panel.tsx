@@ -73,7 +73,7 @@ const EditorPanel: React.FC<EditorPanelProps> = ({ className, useCanvas }) => {
       id="editor-panel-container"
       className={cn(
         "flex flex-col relative size-full bg-fixed bg-[radial-gradient(hsl(var(--border))_1px,hsl(var(--primary)/0.05)_1px)] [background-size:16px_16px] will-change-auto",
-        className
+        className,
       )}
     >
       {useCanvas ? (
@@ -94,7 +94,7 @@ const EditorPanel: React.FC<EditorPanelProps> = ({ className, useCanvas }) => {
                 mobile: "w-[390px]",
                 tablet: "w-[768px]",
                 desktop: "w-[1440px]",
-              }[previewMode]
+              }[previewMode],
             )}
           >
             {renderer}
@@ -103,9 +103,7 @@ const EditorPanel: React.FC<EditorPanelProps> = ({ className, useCanvas }) => {
       ) : (
         renderer
       )}
-      <AddComponentsPopover
-        parentLayerId={selectedPageId}
-      >
+      <AddComponentsPopover parentLayerId={selectedPageId}>
         <Button
           variant="secondary"
           size="icon"

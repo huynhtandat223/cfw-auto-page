@@ -1,19 +1,19 @@
-import * as path from 'path';
+import * as path from "path";
 import { ComponentDocWithIsDefault } from "./file-to-doc";
-import { Project, } from 'ts-morph';
+import { Project } from "ts-morph";
 
 // Initialize ts-morph Project for type checking
 const project = new Project({
-    useInMemoryFileSystem: true,
+  useInMemoryFileSystem: true,
 });
 
 export type PropInterfaceData = {
-    interfaceString: string;
-    componentName: string;
-    from: string;
-    isDefault: boolean;
-    filePath: string;
-}
+  interfaceString: string;
+  componentName: string;
+  from: string;
+  isDefault: boolean;
+  filePath: string;
+};
 
 /**
  * Generates a TypeScript interface string for a given component.
@@ -21,47 +21,50 @@ export type PropInterfaceData = {
  * @param doc - The component documentation extracted by react-docgen-typescript.
  * @returns The TypeScript interface as a string.
  */
-export function docToInterface(doc: ComponentDocWithIsDefault, rootDir: string, dirPart: string | undefined): PropInterfaceData {
+export function docToInterface(
+  doc: ComponentDocWithIsDefault,
+  rootDir: string,
+  dirPart: string | undefined,
+): PropInterfaceData {
+  const path = dirPart ? dirPart.replace(rootDir, "") : "";
+  let interfaceString = "";
 
-    const path = dirPart ? dirPart.replace(rootDir, '') : '';
-    let interfaceString = '';
+  // Start interface definition
+  interfaceString += `export interface ${doc.componentName}Props {\n`;
 
-    // Start interface definition
-    interfaceString += `export interface ${ doc.componentName }Props {\n`;
+  Object.entries(doc.props).forEach(([propName, propData]) => {
+    const optionalFlag = propData.required ? "" : "?";
+    let propType = propData.type.name;
 
-    Object.entries(doc.props).forEach(([propName, propData]) => {
+    // Check if the type is a function
+    if (isFunctionType(propType)) {
+      propType = "(...args: any[]) => any";
+    }
+    // Validate the prop type
+    else if (!isValidType(propType)) {
+      console.warn(
+        `Unresolved complex type "${propType}" for prop "${propName}" in component "${doc.displayName}". Defaulting to "any".`,
+      );
+      propType = "any";
+    }
 
-        const optionalFlag = propData.required ? '' : '?';
-        let propType = propData.type.name;
+    interfaceString += `  ${fixKey(propName)}${optionalFlag}: ${propType};\n`;
+  });
 
-        // Check if the type is a function
-        if (isFunctionType(propType)) {
-            propType = '(...args: any[]) => any';
-        }
-        // Validate the prop type
-        else if (!isValidType(propType)) {
-            console.warn(`Unresolved complex type "${ propType }" for prop "${ propName }" in component "${ doc.displayName }". Defaulting to "any".`);
-            propType = 'any';
-        }
+  interfaceString += "}\n";
 
+  const componentName = doc.componentName;
+  // const relativePath = getRelativeImportPath(doc.filePath, rootDir, dirPart);
 
-        interfaceString += `  ${ fixKey(propName) }${ optionalFlag }: ${ propType };\n`;
-    });
+  const from = `@/components${path}/${getFilenameWithoutExtension(doc.filePath)}`;
 
-    interfaceString += '}\n';
-
-    const componentName = doc.componentName;
-    // const relativePath = getRelativeImportPath(doc.filePath, rootDir, dirPart);
-
-    const from = `@/components${ path }/${ getFilenameWithoutExtension(doc.filePath) }`;
-
-    return {
-        interfaceString,
-        componentName,
-        from,
-        isDefault: doc.isDefault,
-        filePath: doc.filePath
-    };
+  return {
+    interfaceString,
+    componentName,
+    from,
+    isDefault: doc.isDefault,
+    filePath: doc.filePath,
+  };
 }
 
 /**
@@ -70,20 +73,22 @@ export function docToInterface(doc: ComponentDocWithIsDefault, rootDir: string, 
  * @returns True if the type is valid, false otherwise.
  */
 function isValidType(typeName: string): boolean {
+  // Create a temporary source file with the type declaration
+  const sourceFile = project.createSourceFile(
+    "temp.ts",
+    `type TempType = ${typeName};`,
+    { overwrite: true },
+  );
 
-    // Create a temporary source file with the type declaration
-    const sourceFile = project.createSourceFile("temp.ts", `type TempType = ${ typeName };`, { overwrite: true });
+  // Retrieve diagnostics (errors) for the source file
+  const diagnostics = sourceFile.getPreEmitDiagnostics();
 
-    // Retrieve diagnostics (errors) for the source file
-    const diagnostics = sourceFile.getPreEmitDiagnostics();
+  if (diagnostics.length > 0) {
+    // console.warn(`Type "${ typeName }" is invalid:`, diagnostics.map(d => d.getMessageText()).join(", "));
+    return false;
+  }
 
-    if (diagnostics.length > 0) {
-        // console.warn(`Type "${ typeName }" is invalid:`, diagnostics.map(d => d.getMessageText()).join(", "));
-        return false;
-    }
-
-
-    return true;
+  return true;
 }
 
 /**
@@ -92,13 +97,17 @@ function isValidType(typeName: string): boolean {
  * @returns True if the type is a function, false otherwise.
  */
 function isFunctionType(typeName: string): boolean {
-    // Create a temporary source file with the type declaration
-    const sourceFile = project.createSourceFile("temp.ts", `type TempType = ${ typeName };`, { overwrite: true });
-    const typeAlias = sourceFile.getTypeAliasOrThrow("TempType");
-    const type = typeAlias.getType();
+  // Create a temporary source file with the type declaration
+  const sourceFile = project.createSourceFile(
+    "temp.ts",
+    `type TempType = ${typeName};`,
+    { overwrite: true },
+  );
+  const typeAlias = sourceFile.getTypeAliasOrThrow("TempType");
+  const type = typeAlias.getType();
 
-    // Check if the type is a function
-    return type.getCallSignatures().length > 0;
+  // Check if the type is a function
+  return type.getCallSignatures().length > 0;
 }
 
 /**
@@ -108,10 +117,10 @@ function isFunctionType(typeName: string): boolean {
  * @returns The fixed key.
  */
 function fixKey(key: string): string {
-    if (key.includes('-')) {
-        return `"${ key }"`;
-    }
-    return key;
+  if (key.includes("-")) {
+    return `"${key}"`;
+  }
+  return key;
 }
 
 /**
@@ -120,6 +129,5 @@ function fixKey(key: string): string {
  * @returns The filename without the extension.
  */
 function getFilenameWithoutExtension(filepath: string): string {
-    return path.basename(filepath, '.tsx');
+  return path.basename(filepath, ".tsx");
 }
-

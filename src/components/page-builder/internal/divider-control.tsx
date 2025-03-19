@@ -32,7 +32,12 @@ export function DividerControl({
         >
           <PlusCircle className="h-5 w-5 text-secondary-foreground" />
           <span className="sr-only">Add component</span>
-          <span className={cn("overflow-hidden max-w-0 group-hover:max-w-xs transition-all duration-200 ease-in-out group-hover:pl-2", popoverOpen ? "max-w-xs pl-2" : "max-w-0")}>
+          <span
+            className={cn(
+              "overflow-hidden max-w-0 group-hover:max-w-xs transition-all duration-200 ease-in-out group-hover:pl-2",
+              popoverOpen ? "max-w-xs pl-2" : "max-w-0",
+            )}
+          >
             Add component
           </span>
         </Button>

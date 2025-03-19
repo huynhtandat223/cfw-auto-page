@@ -63,13 +63,16 @@ const Icon = React.forwardRef<SVGSVGElement, IconProps>(
         {...props}
       />
     );
-  }
+  },
 );
 
 Icon.displayName = "Icon";
 
 export const iconNames = Object.keys(LucideIcons)
-  .filter((key) => (!key.startsWith("Lucide") && !key.endsWith("Icon")) && key !== "icons")
+  .filter(
+    (key) =>
+      !key.startsWith("Lucide") && !key.endsWith("Icon") && key !== "icons",
+  )
   .map((key) => key as LucideIconName) as [LucideIconName, ...LucideIconName[]];
 
 export { Icon, iconVariants };

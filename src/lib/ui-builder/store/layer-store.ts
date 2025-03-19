@@ -51,12 +51,12 @@ export interface LayerStore {
   initialize: (
     pages: PageLayer[],
     selectedPageId?: string,
-    selectedLayerId?: string
+    selectedLayerId?: string,
   ) => void;
   addComponentLayer: (
     layerType: keyof typeof componentRegistry,
     parentId: string,
-    parentPosition?: number
+    parentPosition?: number,
   ) => void;
   addPageLayer: (pageId: string) => void;
   duplicateLayer: (layerId: string, parentId?: string) => void;
@@ -64,7 +64,7 @@ export interface LayerStore {
   updateLayer: (
     layerId: string,
     newProps: Record<string, any>,
-    layerRest?: Partial<Omit<Layer, "props">>
+    layerRest?: Partial<Omit<Layer, "props">>,
   ) => void;
   selectLayer: (layerId: string) => void;
   selectPage: (pageId: string) => void;
@@ -89,7 +89,7 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
   initialize: (
     pages: PageLayer[],
     selectedPageId?: string,
-    selectedLayerId?: string
+    selectedLayerId?: string,
   ) => {
     set({
       pages,
@@ -118,19 +118,19 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
   addComponentLayer: (
     layerType: keyof typeof componentRegistry,
     parentId: string,
-    parentPosition?: number
+    parentPosition?: number,
   ) =>
     set(
       produce((state: LayerStore) => {
         const defaultProps = getDefaultProps(
-          componentRegistry[layerType].schema
+          componentRegistry[layerType].schema,
         );
         const defaultChildrenRaw = componentRegistry[layerType].defaultChildren;
         const defaultChildren =
           typeof defaultChildrenRaw === "string"
             ? defaultChildrenRaw
             : defaultChildrenRaw?.map((child) =>
-                duplicateWithNewIdsAndName(child, false)
+                duplicateWithNewIdsAndName(child, false),
               ) || [];
 
         const initialProps = Object.entries(defaultProps).reduce(
@@ -140,7 +140,7 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
             }
             return acc;
           },
-          {} as Record<string, any>
+          {} as Record<string, any>,
         );
 
         const newLayer: Layer = {
@@ -156,13 +156,13 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
           state.pages,
           newLayer,
           parentId,
-          parentPosition
+          parentPosition,
         );
         return {
           ...state,
           pages: updatedPages,
         };
-      })
+      }),
     ),
 
   addPageLayer: (pageName: string) =>
@@ -179,7 +179,7 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
           pages: [...state.pages, newPage],
           selectedPageId: newPage.id,
         };
-      })
+      }),
     ),
 
   duplicateLayer: (layerId: string) =>
@@ -200,7 +200,7 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
               }
             }
             return layer;
-          })
+          }),
         );
         if (!layerToDuplicate) {
           console.warn(`Layer with ID ${layerId} not found.`);
@@ -211,7 +211,7 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
 
         const newLayer = duplicateWithNewIdsAndName(
           layerToDuplicate,
-          !isNewLayerAPage
+          !isNewLayerAPage,
         );
 
         if (isNewLayerAPage) {
@@ -228,7 +228,7 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
           state.pages,
           newLayer,
           parentId,
-          parentPosition
+          parentPosition,
         );
 
         // Insert the duplicated layer
@@ -236,7 +236,7 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
           ...state,
           pages: updatedPages,
         };
-      })
+      }),
     ),
 
   removeLayer: (layerId: string) =>
@@ -261,13 +261,13 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
             if (hasLayerChildren(layer)) {
               // Remove the layer by filtering it out from the children
               const updatedChildren = layer.children.filter(
-                (child) => child.id !== layerId
+                (child) => child.id !== layerId,
               );
               return { ...layer, children: updatedChildren };
             }
 
             return layer;
-          })
+          }),
         );
 
         if (selectedLayerId === layerId) {
@@ -279,13 +279,13 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
           selectedLayerId: newSelectedLayerId,
           pages: updatedPages,
         };
-      })
+      }),
     ),
 
   updateLayer: (
     layerId: string,
     newProps: Layer["props"],
-    layerRest?: Partial<Omit<Layer, "props">>
+    layerRest?: Partial<Omit<Layer, "props">>,
   ) =>
     set(
       produce((state: LayerStore) => {
@@ -304,7 +304,7 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
                   props: { ...page.props, ...newProps },
                   ...(layerRest || {}),
                 }
-              : page
+              : page,
           );
           return { ...state, pages: updatedPages };
         }
@@ -325,11 +325,11 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
 
         // Apply the visitor to update layers
         const updatedLayers = layers.map((layer) =>
-          visitLayer(layer, null, visitor)
+          visitLayer(layer, null, visitor),
         );
 
         const isUnchanged = updatedLayers.every(
-          (layer, index) => layer === layers[index]
+          (layer, index) => layer === layers[index],
         );
 
         if (isUnchanged) {
@@ -341,11 +341,11 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
         const updatedPages = state.pages.map((page) =>
           page.id === selectedPageId
             ? { ...page, children: updatedLayers }
-            : page
+            : page,
         );
 
         return { ...state, pages: updatedPages };
-      })
+      }),
     ),
 
   selectLayer: (layerId: string) =>
@@ -361,7 +361,7 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
           };
         }
         return {};
-      })
+      }),
     ),
 
   selectPage: (pageId: string) =>
@@ -372,7 +372,7 @@ const store: StateCreator<LayerStore, [], []> = (set, get) => ({
         return {
           selectedPageId: pageId,
         };
-      })
+      }),
     ),
 });
 
@@ -396,8 +396,8 @@ const useLayerStore = create(
         }
         return persistedState;
       },
-    }
-  )
+    },
+  ),
 );
 
 export {

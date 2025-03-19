@@ -77,8 +77,8 @@ function createRouter1(pageLayers: PageLayer[]) {
         getParentRoute: () => rootRoute,
         path: url,
         component: component || Test,
-      })
-    )
+      }),
+    ),
   );
 
   const routeTree = rootRoute.addChildren(dynamicRoutes);

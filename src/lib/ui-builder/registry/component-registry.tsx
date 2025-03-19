@@ -11,7 +11,7 @@ export interface RegistryEntry<T extends ReactComponentType<any>> {
   component?: T;
   schema: ZodObject<any>;
   from?: string;
-  defaultChildren?: (ComponentLayer)[] | string;
+  defaultChildren?: ComponentLayer[] | string;
   fieldOverrides?: Record<string, FieldConfigFunction>;
 }
 
@@ -22,32 +22,29 @@ export type ComponentRegistry = Record<
 
 export type FieldConfigFunction = (layer: ComponentLayer) => FieldConfigItem;
 
-
 export const componentRegistry: ComponentRegistry = {
   // ...OtherComponentDefinitions
   ...complexComponentDefinitions,
   ...primitiveComponentDefinitions,
 } as const;
 
-export const generateFieldOverrides = (layer: ComponentLayer): Record<string, FieldConfigItem> => {
+export const generateFieldOverrides = (
+  layer: ComponentLayer,
+): Record<string, FieldConfigItem> => {
   const componentDefinition = componentRegistry[layer.type];
   if (!componentDefinition) {
     return {};
   }
-  
-  if(componentDefinition.fieldOverrides) {
+
+  if (componentDefinition.fieldOverrides) {
     const fieldOverrides: Record<string, FieldConfigItem> = {};
-    Object.keys(componentDefinition.fieldOverrides).forEach(key => {
+    Object.keys(componentDefinition.fieldOverrides).forEach((key) => {
       const override = componentDefinition.fieldOverrides?.[key];
-      if(override) {
+      if (override) {
         fieldOverrides[key] = override(layer);
       }
     });
     return fieldOverrides;
   }
   return {};
-  
-}
-
-
-
+};

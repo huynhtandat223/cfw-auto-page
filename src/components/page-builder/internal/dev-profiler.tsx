@@ -6,7 +6,11 @@ interface DevProfilerProps {
   children: React.ReactNode;
 }
 
-export const DevProfiler: React.FC<DevProfilerProps> = ({ id, threshold, children }) => {
+export const DevProfiler: React.FC<DevProfilerProps> = ({
+  id,
+  threshold,
+  children,
+}) => {
   if (process.env.NODE_ENV === "production") {
     return <>{children}</>;
   }
@@ -19,7 +23,7 @@ export const DevProfiler: React.FC<DevProfilerProps> = ({ id, threshold, childre
     if (actualDuration > threshold) {
       console.log(
         `%cProfiler [${profilerId}] Phase: ${phase} - actual duration: ${actualDuration.toFixed(2)}ms exceeds threshold of ${threshold}ms`,
-        "color: red"
+        "color: red",
       );
     }
   };

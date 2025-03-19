@@ -15,7 +15,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { componentRegistry, useLayerStore } from "@/lib/ui-builder/store/layer-store";
+import {
+  componentRegistry,
+  useLayerStore,
+} from "@/lib/ui-builder/store/layer-store";
 import { cn } from "@/lib/utils";
 
 type AddComponentsPopoverProps = {
@@ -24,7 +27,15 @@ type AddComponentsPopoverProps = {
   addPosition?: number;
   parentLayerId: string;
   onOpenChange?: (open: boolean) => void;
-  onChange?: ({ layerType, parentLayerId, addPosition }: { layerType: string, parentLayerId: string, addPosition?: number }) => void;
+  onChange?: ({
+    layerType,
+    parentLayerId,
+    addPosition,
+  }: {
+    layerType: string;
+    parentLayerId: string;
+    addPosition?: number;
+  }) => void;
 };
 
 export function AddComponentsPopover({
@@ -37,8 +48,7 @@ export function AddComponentsPopover({
 }: AddComponentsPopoverProps) {
   const [open, setOpen] = React.useState(false);
 
-  const [inputValue, setInputValue] = React.useState("")
-  
+  const [inputValue, setInputValue] = React.useState("");
 
   const componentOptions = Object.keys(componentRegistry).map((name) => ({
     value: name,
@@ -49,8 +59,8 @@ export function AddComponentsPopover({
 
   const groupedOptions = componentOptions.reduce(
     (acc, option) => {
-      const fromRoot = option.from?.split('/').slice(0,-1).join('/'); // removes file name from path
-      
+      const fromRoot = option.from?.split("/").slice(0, -1).join("/"); // removes file name from path
+
       const group = fromRoot || "other";
       if (!acc[group]) {
         acc[group] = [];
@@ -58,38 +68,49 @@ export function AddComponentsPopover({
       acc[group].push(option);
       return acc;
     },
-    {} as Record<string, typeof componentOptions>
+    {} as Record<string, typeof componentOptions>,
   );
 
-  const {
-    addComponentLayer,
-  } = useLayerStore((state) => ({
+  const { addComponentLayer } = useLayerStore((state) => ({
     addComponentLayer: state.addComponentLayer,
   }));
 
   const handleSelect = React.useCallback(
     (currentValue: string) => {
       if (onChange) {
-        onChange({ layerType: currentValue, parentLayerId, addPosition })
-      } else if (componentRegistry[currentValue as keyof typeof componentRegistry]) {
-        addComponentLayer(currentValue as keyof typeof componentRegistry, parentLayerId, addPosition)
+        onChange({ layerType: currentValue, parentLayerId, addPosition });
+      } else if (
+        componentRegistry[currentValue as keyof typeof componentRegistry]
+      ) {
+        addComponentLayer(
+          currentValue as keyof typeof componentRegistry,
+          parentLayerId,
+          addPosition,
+        );
       }
       setOpen(false);
       onOpenChange?.(false);
     },
-    [addComponentLayer, parentLayerId, addPosition, setOpen, onOpenChange, onChange]
+    [
+      addComponentLayer,
+      parentLayerId,
+      addPosition,
+      setOpen,
+      onOpenChange,
+      onChange,
+    ],
   );
-
 
   return (
     <div className={cn("relative flex justify-center", className)}>
-      <Popover open={open} onOpenChange={(open) => {
-        setOpen(open)
-        onOpenChange?.(open)
-      }}>
-        <PopoverTrigger asChild>
-          {children}
-        </PopoverTrigger>
+      <Popover
+        open={open}
+        onOpenChange={(open) => {
+          setOpen(open);
+          onOpenChange?.(open);
+        }}
+      >
+        <PopoverTrigger asChild>{children}</PopoverTrigger>
         <PopoverContent className="w-[300px] p-0">
           <Command>
             <CommandInput
@@ -98,9 +119,7 @@ export function AddComponentsPopover({
               onValueChange={setInputValue}
             />
             <CommandList>
-              <CommandEmpty>
-                No components found
-              </CommandEmpty>
+              <CommandEmpty>No components found</CommandEmpty>
               <CommandSeparator />
               {Object.entries(groupedOptions).map(([group, components]) => (
                 <CommandGroup key={group} heading={group}>

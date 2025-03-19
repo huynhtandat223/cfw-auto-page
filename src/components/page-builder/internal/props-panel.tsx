@@ -25,15 +25,22 @@ const PropsPanel: React.FC<PropsPanelProps> = ({ className }) => {
 
   const selectedLayer = findLayerById(selectedLayerId);
 
-  const handleAddComponentLayer = useCallback((layerType: string, parentLayerId: string, addPosition?: number) => {
-    addComponentLayer(layerType as keyof typeof componentRegistry, parentLayerId, addPosition);
-  }, [addComponentLayer]);
+  const handleAddComponentLayer = useCallback(
+    (layerType: string, parentLayerId: string, addPosition?: number) => {
+      addComponentLayer(
+        layerType as keyof typeof componentRegistry,
+        parentLayerId,
+        addPosition,
+      );
+    },
+    [addComponentLayer],
+  );
 
   const handleDeleteLayer = useCallback(
     (layerId: string) => {
       removeLayer(layerId);
     },
-    [removeLayer]
+    [removeLayer],
   );
 
   const handleDuplicateLayer = useCallback(() => {
@@ -46,11 +53,11 @@ const PropsPanel: React.FC<PropsPanelProps> = ({ className }) => {
     (
       id: string,
       props: Record<string, any>,
-      rest?: Partial<Omit<Layer, "props">>
+      rest?: Partial<Omit<Layer, "props">>,
     ) => {
       updateLayer(id, props, rest);
     },
-    [updateLayer]
+    [updateLayer],
   );
 
   //first check if selectedLayer.type is a valid key in componentRegistry
@@ -100,8 +107,16 @@ interface ComponentPropsAutoFormProps {
   selectedLayerId: string;
   removeLayer: (id: string) => void;
   duplicateLayer: (id: string) => void;
-  updateLayer: (id: string, props: Record<string, any>, rest?: Partial<Omit<Layer, "props">>) => void;
-  addComponentLayer: (layerType: string, parentLayerId: string, addPosition?: number) => void;
+  updateLayer: (
+    id: string,
+    props: Record<string, any>,
+    rest?: Partial<Omit<Layer, "props">>,
+  ) => void;
+  addComponentLayer: (
+    layerType: string,
+    parentLayerId: string,
+    addPosition?: number,
+  ) => void;
 }
 
 const ComponentPropsAutoForm: React.FC<ComponentPropsAutoFormProps> = ({
@@ -112,8 +127,10 @@ const ComponentPropsAutoForm: React.FC<ComponentPropsAutoFormProps> = ({
   addComponentLayer,
 }) => {
   const findLayerById = useLayerStore((state) => state.findLayerById);
-  const selectedLayer = findLayerById(selectedLayerId) as ComponentLayer | undefined;
-  
+  const selectedLayer = findLayerById(selectedLayerId) as
+    | ComponentLayer
+    | undefined;
+
   const handleDeleteLayer = useCallback(() => {
     removeLayer(selectedLayerId);
   }, [removeLayer, selectedLayerId]);
@@ -123,36 +140,57 @@ const ComponentPropsAutoForm: React.FC<ComponentPropsAutoFormProps> = ({
   }, [duplicateLayer, selectedLayerId]);
 
   const onParsedValuesChange = useCallback(
-    (parsedValues: z.infer<typeof schema> & { children?: string | { layerType: string, addPosition: number } }) => {
+    (
+      parsedValues: z.infer<typeof schema> & {
+        children?: string | { layerType: string; addPosition: number };
+      },
+    ) => {
       const { children, ...dataProps } = parsedValues;
-      if(typeof children === "string") {
-        updateLayer(selectedLayerId, dataProps, { children: children  });
-      }else if(children && children.layerType) {
-        updateLayer(selectedLayerId, dataProps, { children: selectedLayer?.children });
-        addComponentLayer(children.layerType, selectedLayerId, children.addPosition)
-      }else{
+      if (typeof children === "string") {
+        updateLayer(selectedLayerId, dataProps, { children: children });
+      } else if (children && children.layerType) {
+        updateLayer(selectedLayerId, dataProps, {
+          children: selectedLayer?.children,
+        });
+        addComponentLayer(
+          children.layerType,
+          selectedLayerId,
+          children.addPosition,
+        );
+      } else {
         updateLayer(selectedLayerId, dataProps);
       }
     },
-    [updateLayer, selectedLayerId, selectedLayer, addComponentLayer]
+    [updateLayer, selectedLayerId, selectedLayer, addComponentLayer],
   );
 
   // Retrieve the appropriate schema from componentRegistry
   const { schema } = useMemo(() => {
-    if (selectedLayer && componentRegistry[selectedLayer.type as keyof typeof componentRegistry]) {
-      return componentRegistry[selectedLayer.type as keyof typeof componentRegistry];
+    if (
+      selectedLayer &&
+      componentRegistry[selectedLayer.type as keyof typeof componentRegistry]
+    ) {
+      return componentRegistry[
+        selectedLayer.type as keyof typeof componentRegistry
+      ];
     }
     return { schema: z.object({}) }; // Fallback schema
   }, [selectedLayer]);
 
-  if (!selectedLayer || !componentRegistry[selectedLayer.type as keyof typeof componentRegistry]) {
+  if (
+    !selectedLayer ||
+    !componentRegistry[selectedLayer.type as keyof typeof componentRegistry]
+  ) {
     return null;
   }
 
   return (
     <AutoForm
-      formSchema={addDefaultValues(schema, { ...selectedLayer.props, children: selectedLayer.children })}
-      values={ { ...selectedLayer.props, children: selectedLayer.children }}
+      formSchema={addDefaultValues(schema, {
+        ...selectedLayer.props,
+        children: selectedLayer.children,
+      })}
+      values={{ ...selectedLayer.props, children: selectedLayer.children }}
       onParsedValuesChange={onParsedValuesChange}
       fieldConfig={generateFieldOverrides(selectedLayer)}
       className="space-y-4"

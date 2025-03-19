@@ -1,4 +1,9 @@
-import { PageLayer, Layer, isPageLayer, componentRegistry } from "@/lib/ui-builder/store/layer-store";
+import {
+  PageLayer,
+  Layer,
+  isPageLayer,
+  componentRegistry,
+} from "@/lib/ui-builder/store/layer-store";
 import template from "lodash.template";
 import { hasLayerChildren } from "@/lib/ui-builder/store/layer-utils";
 
@@ -13,7 +18,7 @@ export const pageLayerToCode = (page: PageLayer) => {
       const componentDefinition = componentRegistry[layer.type];
       if (layer.type && componentDefinition && componentDefinition.from) {
         imports.add(
-          `import { ${ layer.type } } from "${ componentDefinition.from }";`
+          `import { ${layer.type} } from "${componentDefinition.from}";`,
         );
       }
       if (layer.children) {
@@ -33,16 +38,14 @@ export const pageLayerToCode = (page: PageLayer) => {
     pageProps,
     children: code
       .split("\n")
-      .map((line) => `    ${ line }`)
+      .map((line) => `    ${line}`)
       .join("\n"),
   });
 
   return finalCode;
-
 };
 
 export const generateLayerCode = (layer: Layer, indent = 0): string => {
-
   const indentation = "  ".repeat(indent);
 
   let childrenCode = "";
@@ -53,15 +56,15 @@ export const generateLayerCode = (layer: Layer, indent = 0): string => {
   }
   //else if children is a string, then we need render children as a text node
   else if (typeof layer.children === "string") {
-    childrenCode = `{"${ layer.children }"}`;
+    childrenCode = `{"${layer.children}"}`;
   }
 
   if (childrenCode) {
-    return `${ indentation }<${ layer.type }${ generatePropsString(
-      layer.props
-    ) }>\n${ childrenCode }\n${ indentation }</${ layer.type }>`;
+    return `${indentation}<${layer.type}${generatePropsString(
+      layer.props,
+    )}>\n${childrenCode}\n${indentation}</${layer.type}>`;
   } else {
-    return `${ indentation }<${ layer.type }${ generatePropsString(layer.props) } />`;
+    return `${indentation}<${layer.type}${generatePropsString(layer.props)} />`;
   }
 };
 
@@ -71,20 +74,19 @@ export const generatePropsString = (props: Record<string, any>): string => {
     .map(([key, value]) => {
       let propValue;
       if (typeof value === "string") {
-        propValue = `"${ value }"`;
+        propValue = `"${value}"`;
       } else if (typeof value === "number") {
-        propValue = `{${ value }}`;
+        propValue = `{${value}}`;
       } else {
-        propValue = `{${ JSON.stringify(value) }}`;
+        propValue = `{${JSON.stringify(value)}}`;
       }
-      return `${ key }=${ propValue }`;
+      return `${key}=${propValue}`;
     });
 
-  return propsArray.length > 0 ? ` ${ propsArray.join(" ") }` : "";
+  return propsArray.length > 0 ? ` ${propsArray.join(" ")}` : "";
 };
 
-const reactComponentTemplate =
-  `import React from "react";
+const reactComponentTemplate = `import React from "react";
 <%= imports %>
 
 const Page = () => {

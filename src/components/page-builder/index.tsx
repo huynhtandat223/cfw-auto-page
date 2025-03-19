@@ -100,7 +100,7 @@ function MainLayout({ useCanvas }: { useCanvas: boolean }) {
         defaultSize: 25,
       },
     ],
-    [useCanvas]
+    [useCanvas],
   );
 
   const [selectedPanel, setSelectedPanel] = useState(mainPanels[1]);

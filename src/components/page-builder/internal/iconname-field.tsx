@@ -10,8 +10,7 @@ import MultipleSelector, {
 } from "@/components/ui/ui-builder/multi-select";
 import { iconNames } from "@/components/ui/ui-builder/icon";
 
-interface IconNameFieldProps{
-
+interface IconNameFieldProps {
   description?: React.ReactNode;
   label?: string;
   isRequired?: boolean;
@@ -28,12 +27,14 @@ const IconNameField: React.FC<IconNameFieldProps> = ({
 }) => {
   const searchNames = async (value: string): Promise<Option[]> => {
     return new Promise((resolve) => {
-      const res = iconNames.filter((option) => option.toLowerCase().includes(value.toLowerCase()));
+      const res = iconNames.filter((option) =>
+        option.toLowerCase().includes(value.toLowerCase()),
+      );
       resolve(
         res.map((name) => ({
           value: name,
           label: name,
-        }))
+        })),
       );
     });
   };
@@ -44,7 +45,7 @@ const IconNameField: React.FC<IconNameFieldProps> = ({
         onChange(values[0].value);
       }
     },
-    [onChange]
+    [onChange],
   );
 
   return (
@@ -55,10 +56,9 @@ const IconNameField: React.FC<IconNameFieldProps> = ({
       </FormLabel>
       <FormControl>
         <MultipleSelector
-          value={[{value: value, label: value}]}
+          value={[{ value: value, label: value }]}
           maxSelected={1}
           defaultOptions={[]}
-          
           onChange={handleChange}
           placeholder="Type icon name..."
           emptyIndicator={

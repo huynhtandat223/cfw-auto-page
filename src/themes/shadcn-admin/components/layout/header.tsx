@@ -34,7 +34,7 @@ export const Header = ({
         "flex h-16 items-center gap-3 bg-background p-4 sm:gap-4",
         fixed && "header-fixed peer/header fixed z-50 w-[inherit] rounded-md",
         offset > 10 && fixed ? "shadow" : "shadow-none",
-        className
+        className,
       )}
       {...props}
     >

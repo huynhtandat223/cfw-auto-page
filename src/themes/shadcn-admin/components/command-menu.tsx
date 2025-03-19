@@ -30,7 +30,7 @@ export function CommandMenu() {
       setOpen(false);
       command();
     },
-    [setOpen]
+    [setOpen],
   );
 
   return (

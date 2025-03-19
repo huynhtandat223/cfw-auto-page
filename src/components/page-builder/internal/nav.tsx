@@ -132,7 +132,7 @@ export function NavBar({ useCanvas }: NavBarProps) {
         },
       },
     ],
-    [handleUndo, handleRedo]
+    [handleUndo, handleRedo],
   );
 
   useKeyboardShortcuts(keyCombinations);
@@ -333,12 +333,20 @@ const ResponsiveDropdown: React.FC<ResponsiveDropdownProps> = ({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" style={{ zIndex: Z_INDEX + 1 }}>
-        <DropdownMenuItem className="gap-2" onClick={onUndo} disabled={!canUndo}>
+        <DropdownMenuItem
+          className="gap-2"
+          onClick={onUndo}
+          disabled={!canUndo}
+        >
           <Undo className="w-4 h-4" />
           Undo
           <span className="ml-auto text-xs text-muted-foreground">⌘Z</span>
         </DropdownMenuItem>
-        <DropdownMenuItem className="gap-2" onClick={onRedo} disabled={!canRedo}>
+        <DropdownMenuItem
+          className="gap-2"
+          onClick={onRedo}
+          disabled={!canRedo}
+        >
           <Redo className="w-4 h-4" />
           Redo
           <span className="ml-auto text-xs text-muted-foreground">⌘+⇧+Z</span>
@@ -477,7 +485,7 @@ function PagesPopover() {
   const [inputValue, setInputValue] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedPage, setSelectedPage] = useState<string | null>(
-    selectedPageId
+    selectedPageId,
   );
   const [textInputValue, setTextInputValue] = useState("");
 
@@ -590,7 +598,7 @@ const DialogContentWithZIndex = forwardRef<
       ref={ref}
       className={cn(
         "fixed left-[50%] top-[50%] grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
-        className
+        className,
       )}
       {...props}
     >

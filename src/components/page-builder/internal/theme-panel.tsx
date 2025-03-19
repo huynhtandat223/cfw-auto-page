@@ -7,10 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { CheckIcon, InfoIcon, MoonIcon, SunIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  PageLayer,
-  useLayerStore,
-} from "@/lib/ui-builder/store/layer-store";
+import { PageLayer, useLayerStore } from "@/lib/ui-builder/store/layer-store";
 import { Toggle } from "@/components/ui/toggle";
 import { themeToStyleVars } from "@/components/ui/ui-builder/internal/render-utils";
 
@@ -22,7 +19,7 @@ export function ThemePanel() {
   } = useLayerStore();
   const selectedPageData = findLayerById(selectedPageId) as PageLayer;
   const [isCustomTheme, setIsCustomTheme] = useState(
-    selectedPageData?.props.colorTheme !== undefined
+    selectedPageData?.props.colorTheme !== undefined,
   );
   //if not isCustomTheme we delete the themeColors from the pageLayer
   useEffect(() => {
@@ -50,7 +47,11 @@ export function ThemePanel() {
         </span>
       )}
       {selectedPageData && (
-        <ThemePicker key={selectedPageId} isDisabled={!isCustomTheme} pageLayer={selectedPageData} />
+        <ThemePicker
+          key={selectedPageId}
+          isDisabled={!isCustomTheme}
+          pageLayer={selectedPageData}
+        />
       )}
     </div>
   );
@@ -68,13 +69,13 @@ function ThemePicker({
   const { updateLayer: updateLayerProps } = useLayerStore();
 
   const [colorTheme, setColorTheme] = useState<BaseColor["name"]>(
-    pageLayer.props?.colorTheme || "red"
+    pageLayer.props?.colorTheme || "red",
   );
   const [borderRadius, setBorderRadius] = useState(
-    pageLayer.props?.borderRadius || 0.3
+    pageLayer.props?.borderRadius || 0.3,
   );
   const [mode, setMode] = useState<"light" | "dark">(
-    pageLayer.props?.mode || "light"
+    pageLayer.props?.mode || "light",
   );
 
   useEffect(() => {
@@ -102,7 +103,14 @@ function ThemePicker({
         borderRadius,
       });
     }
-  }, [pageLayer.id, updateLayerProps, colorTheme, borderRadius, mode, isDisabled]);
+  }, [
+    pageLayer.id,
+    updateLayerProps,
+    colorTheme,
+    borderRadius,
+    mode,
+    isDisabled,
+  ]);
 
   const colorOptions = baseColors.map((color: BaseColor) => {
     return (
@@ -112,7 +120,7 @@ function ThemePicker({
         size="sm"
         className={cn(
           "gap-2",
-          color.name === colorTheme && "border-primary border-2"
+          color.name === colorTheme && "border-primary border-2",
         )}
         onClick={() => setColorTheme(color.name)}
       >
@@ -138,7 +146,7 @@ function ThemePicker({
         size="sm"
         className={cn(
           "gap-2",
-          radius === borderRadius && "border-primary border-2"
+          radius === borderRadius && "border-primary border-2",
         )}
         onClick={() => setBorderRadius(radius)}
       >
@@ -177,7 +185,7 @@ function ThemePicker({
       className={cn(
         "flex flex-col gap-2",
         className,
-        isDisabled && "opacity-30 pointer-events-none"
+        isDisabled && "opacity-30 pointer-events-none",
       )}
     >
       <Label className="mt-2">Colors</Label>

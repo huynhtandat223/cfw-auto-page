@@ -27,12 +27,14 @@ const ClassNameField: React.FC<ClassNameFieldProps> = ({
 }) => {
   const searchClasses = async (value: string): Promise<Option[]> => {
     return new Promise((resolve) => {
-      const res = TAILWIND_CLASSES_WITH_BREAKPOINTS.filter((option) => option.includes(value));
+      const res = TAILWIND_CLASSES_WITH_BREAKPOINTS.filter((option) =>
+        option.includes(value),
+      );
       resolve(
         res.map((cls) => ({
           value: cls,
           label: cls,
-        }))
+        })),
       );
     });
   };
@@ -42,7 +44,7 @@ const ClassNameField: React.FC<ClassNameFieldProps> = ({
       const newClassName = values.map((v) => v.value).join(" ");
       onChange(newClassName);
     },
-    [onChange]
+    [onChange],
   );
 
   return (
@@ -55,7 +57,8 @@ const ClassNameField: React.FC<ClassNameFieldProps> = ({
         <MultipleSelector
           defaultOptions={[]}
           value={
-            className?.split(" ")
+            className
+              ?.split(" ")
               .filter((cls) => cls.trim() !== "")
               .map((cls: string) => ({
                 value: cls,

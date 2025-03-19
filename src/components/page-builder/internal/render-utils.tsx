@@ -60,7 +60,18 @@ export const RenderPage: React.FC<{
       {...rest}
     >
       {page.children.map((child) => (
-        <RenderLayer key={child.id} layer={child} editorConfig={editorConfig ? { ...editorConfig, parentUpdated: !isDeepEqual(prevPage.current, page) } : undefined} />
+        <RenderLayer
+          key={child.id}
+          layer={child}
+          editorConfig={
+            editorConfig
+              ? {
+                  ...editorConfig,
+                  parentUpdated: !isDeepEqual(prevPage.current, page),
+                }
+              : undefined
+          }
+        />
       ))}
     </div>
   );
@@ -100,7 +111,13 @@ export const RenderLayer: React.FC<{
           layer={child}
           editorConfig={
             editorConfig
-              ? { ...editorConfig, zIndex: editorConfig.zIndex + 1, parentUpdated: editorConfig.parentUpdated || !isDeepEqual(prevLayer.current, layer) }
+              ? {
+                  ...editorConfig,
+                  zIndex: editorConfig.zIndex + 1,
+                  parentUpdated:
+                    editorConfig.parentUpdated ||
+                    !isDeepEqual(prevLayer.current, layer),
+                }
               : undefined
           }
         />
@@ -131,10 +148,7 @@ export const RenderLayer: React.FC<{
       } = editorConfig;
 
       return (
-        <DevProfiler
-          id={layer.type}
-          threshold={10}
-        >
+        <DevProfiler id={layer.type} threshold={10}>
           <ClickableWrapper
             key={layer.id}
             layer={layer}
@@ -154,16 +168,16 @@ export const RenderLayer: React.FC<{
     }
   },
   (prevProps, nextProps) => {
-    if(nextProps.editorConfig?.parentUpdated) {
+    if (nextProps.editorConfig?.parentUpdated) {
       return false;
     }
     const editorConfigEqual = isDeepEqual(
       prevProps.editorConfig?.selectedLayer?.id,
-      nextProps.editorConfig?.selectedLayer?.id
+      nextProps.editorConfig?.selectedLayer?.id,
     );
     const layerEqual = isDeepEqual(prevProps.layer, nextProps.layer);
     return editorConfigEqual && layerEqual;
-  }
+  },
 );
 
 RenderLayer.displayName = "RenderLayer";
@@ -181,7 +195,7 @@ export function themeToStyleVars(
   colors:
     | BaseColor["cssVars"]["dark"]
     | BaseColor["cssVars"]["light"]
-    | undefined
+    | undefined,
 ) {
   if (!colors) {
     return undefined;
@@ -191,7 +205,7 @@ export function themeToStyleVars(
       acc[`--${key}`] = value;
       return acc;
     },
-    {} as { [key: string]: string }
+    {} as { [key: string]: string },
   );
   return styleVariables;
 }

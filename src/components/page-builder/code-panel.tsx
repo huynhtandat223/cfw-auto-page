@@ -1,16 +1,11 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  PageLayer,
-  useLayerStore,
-} from "@/lib/ui-builder/store/layer-store";
+import { PageLayer, useLayerStore } from "@/lib/ui-builder/store/layer-store";
 import { pageLayerToCode } from "@/components/ui/ui-builder/internal/templates";
 import { CodeBlock } from "@/components/ui/ui-builder/codeblock";
 import { cn } from "@/lib/utils";
 
-
 //todo: improve performance of this component
-export function CodePanel({className}: {className?: string}) {
-    
+export function CodePanel({ className }: { className?: string }) {
   const { selectedPageId, findLayerById } = useLayerStore();
 
   const page = findLayerById(selectedPageId) as PageLayer;
@@ -19,7 +14,7 @@ export function CodePanel({className}: {className?: string}) {
     serialized: JSON.stringify(
       page,
       (key, value) => (typeof value === "function" ? undefined : value),
-      2
+      2,
     ),
   };
   return <CodeContent codeBlocks={codeBlocks} className={className} />;
@@ -33,7 +28,10 @@ const CodeContent = ({
   className?: string;
 }) => {
   return (
-    <Tabs defaultValue="react" className={cn("w-full overflow-hidden", className)}>
+    <Tabs
+      defaultValue="react"
+      className={cn("w-full overflow-hidden", className)}
+    >
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="react">React</TabsTrigger>
         <TabsTrigger value="serialized">Serialized</TabsTrigger>

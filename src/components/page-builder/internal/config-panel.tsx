@@ -21,15 +21,13 @@ export const ConfigPanel = () => {
     pages,
   } = useLayerStore();
 
-  
-
   const selectedLayer = findLayerById(selectedPageId) as PageLayer;
 
   const handleDeleteLayer = useCallback(
     (layerId: string) => {
       removeLayer(layerId);
     },
-    [removeLayer]
+    [removeLayer],
   );
 
   const handleDuplicateLayer = useCallback(() => {
@@ -42,11 +40,11 @@ export const ConfigPanel = () => {
     (
       id: string,
       props: Record<string, any>,
-      rest?: Omit<Layer, "props" | "children">
+      rest?: Omit<Layer, "props" | "children">,
     ) => {
       updateLayer(id, props, rest);
     },
-    [updateLayer]
+    [updateLayer],
   );
 
   return (
@@ -67,7 +65,7 @@ interface PageLayerFormProps {
   updateLayerProps: (
     id: string,
     props: Record<string, any>,
-    rest?: Omit<Layer, "props" | "children">
+    rest?: Omit<Layer, "props" | "children">,
   ) => void;
   allowDelete: boolean;
 }
@@ -94,7 +92,7 @@ const PageLayerForm: React.FC<PageLayerFormProps> = ({
 
       updateLayerProps(selectedLayer.id, props, rest);
     },
-    [selectedLayer, updateLayerProps]
+    [selectedLayer, updateLayerProps],
   );
 
   return (
@@ -117,10 +115,7 @@ const PageLayerForm: React.FC<PageLayerFormProps> = ({
           description: "The name of the page.",
         },
         className: {
-          fieldType: ({
-            label,
-            isRequired,
-          }: AutoFormInputComponentProps) => (
+          fieldType: ({ label, isRequired }: AutoFormInputComponentProps) => (
             <ClassNameField
               label={label}
               isRequired={isRequired}
