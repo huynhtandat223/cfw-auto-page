@@ -1,3 +1,4 @@
+import { FormComponentDefintions } from "@/components/form-builder/FormComponentDefintions";
 import { FieldConfigItem } from "@/components/ui/auto-form/types";
 import { complexComponentDefinitions } from "@/lib/ui-builder/registry/complex-component-definitions";
 import { primitiveComponentDefinitions } from "@/lib/ui-builder/registry/primitive-component-definitions";
@@ -22,6 +23,7 @@ export type ComponentRegistry = Record<
 export type FieldConfigFunction = (layer: ComponentLayer) => FieldConfigItem;
 
 export const componentRegistry: ComponentRegistry = {
+  ...FormComponentDefintions,
   ...AdditionalComponentDefinitions,
   ...complexComponentDefinitions,
   ...primitiveComponentDefinitions,
