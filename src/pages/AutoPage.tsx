@@ -10,17 +10,24 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { SearchProvider } from "@/context/search-context";
 import { useLayerStore } from "@/lib/ui-builder/store/layer-store";
 import { cn } from "@/lib/utils";
-import { Outlet, ReactNode } from "@tanstack/react-router";
+import { Outlet, ReactNode, useLocation } from "@tanstack/react-router";
 import Cookies from "js-cookie";
+import { useMemo } from "react";
+import { Toaster } from "sonner";
 import { useStore } from "zustand";
 
 export function Test() {
   const { pages } = useStore(useLayerStore, (state) => state);
-  const page = pages[1];
+  const { pathname } = useLocation();
+
+  const page = useMemo(() => {
+    const page = pages.find((page) => page.route === pathname);
+    return page;
+  }, [pathname, pages]);
 
   return (
     <ShadcnAdminLayout>
-      <LayerRenderer page={page} />
+      <LayerRenderer page={page!} />
     </ShadcnAdminLayout>
   );
 }
@@ -53,7 +60,10 @@ export function ShadcnAdminLayout({ children }: { children?: ReactNode }) {
               </div>
             </Header>
 
-            <Main>{children || <Outlet />}</Main>
+            <Main>
+              {children || <Outlet />}
+              <Toaster />
+            </Main>
           </>
         </div>
       </SidebarProvider>

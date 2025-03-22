@@ -1,11 +1,10 @@
+import { FieldConfigItem } from "@/components/ui/auto-form/types";
+import { complexComponentDefinitions } from "@/lib/ui-builder/registry/complex-component-definitions";
+import { primitiveComponentDefinitions } from "@/lib/ui-builder/registry/primitive-component-definitions";
+import { ComponentLayer } from "@/lib/ui-builder/store/layer-store";
 import { ComponentType as ReactComponentType } from "react";
 import { ZodObject } from "zod";
-import { primitiveComponentDefinitions } from "@/lib/ui-builder/registry/primitive-component-definitions";
-import { complexComponentDefinitions } from "@/lib/ui-builder/registry/complex-component-definitions";
-import { ComponentLayer } from "@/lib/ui-builder/store/layer-store";
-import { FieldConfigItem } from "@/components/ui/auto-form/types";
-
-// import { OtherComponentDefinitions } from '@/components/ui/generated-schemas';
+import { AdditionalComponentDefinitions } from "./additional-component-definitions";
 
 export interface RegistryEntry<T extends ReactComponentType<any>> {
   component?: T;
@@ -23,7 +22,7 @@ export type ComponentRegistry = Record<
 export type FieldConfigFunction = (layer: ComponentLayer) => FieldConfigItem;
 
 export const componentRegistry: ComponentRegistry = {
-  // ...OtherComponentDefinitions
+  ...AdditionalComponentDefinitions,
   ...complexComponentDefinitions,
   ...primitiveComponentDefinitions,
 } as const;

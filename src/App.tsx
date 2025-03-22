@@ -12,6 +12,7 @@ import { FontProvider } from "./context/font-context";
 import { ThemeProvider } from "./context/theme-context";
 import { useLayerStore } from "./lib/ui-builder/store/layer-store";
 import { Test } from "./pages/AutoPage";
+import { InputForm } from "./pages/Test";
 
 const pageLayers = useLayerStore.getState().pages;
 
@@ -25,6 +26,12 @@ export const navGroups = [
         url: "/page-builder",
         icon: IconLayoutDashboard,
         component: PageBuilder,
+      },
+      {
+        title: "Input form",
+        url: "/input-form",
+        icon: IconLayoutDashboard,
+        component: InputForm,
       },
     ],
   },

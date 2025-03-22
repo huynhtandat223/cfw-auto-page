@@ -1,19 +1,18 @@
-import React, { memo, Suspense, useRef } from "react";
-import isDeepEqual from "fast-deep-equal";
 import {
-  baseColors,
   BaseColor,
+  baseColors,
 } from "@/components/ui/ui-builder/internal/base-colors";
+import isDeepEqual from "fast-deep-equal";
+import React, { memo, Suspense, useRef } from "react";
 
-import { Layer, PageLayer } from "@/lib/ui-builder/store/layer-store";
 import { ClickableWrapper } from "@/components/ui/ui-builder/internal/clickable-wrapper";
-import { componentRegistry } from "@/lib/ui-builder/store/layer-store";
+import { componentRegistry, Layer, PageLayer } from "@/lib/ui-builder/store/layer-store";
 import { ErrorBoundary } from "react-error-boundary";
 
+import { DevProfiler } from "@/components/ui/ui-builder/internal/dev-profiler";
 import { ErrorFallback } from "@/components/ui/ui-builder/internal/error-fallback";
 import { isPrimitiveComponent } from "@/lib/ui-builder/registry/registry-utils";
 import { hasLayerChildren } from "@/lib/ui-builder/store/layer-utils";
-import { DevProfiler } from "@/components/ui/ui-builder/internal/dev-profiler";
 
 export interface EditorConfig {
   zIndex: number;
