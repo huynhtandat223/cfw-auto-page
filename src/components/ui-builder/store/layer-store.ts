@@ -15,10 +15,10 @@ import {
   duplicateWithNewIdsAndName,
   findAllParentLayersRecursive,
   migrateV1ToV2,
-} from "@/lib/ui-builder/store/layer-utils";
-import { getDefaultProps } from "@/lib/ui-builder/store/schema-utils";
+} from "./layer-utils";
+import { getDefaultProps } from "./schema-utils";
 
-import { componentRegistry } from "@/lib/ui-builder/registry/component-registry";
+import { componentRegistry } from "@/components/ui-builder/registry/component-registry";
 
 const DEFAULT_PAGE_PROPS = {
   className: "p-4 flex flex-col gap-2",

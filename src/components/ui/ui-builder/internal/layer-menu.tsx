@@ -4,10 +4,10 @@ import { buttonVariants } from "@/components/ui/button";
 import {
   componentRegistry,
   useLayerStore,
-} from "@/lib/ui-builder/store/layer-store";
+} from "@/components/ui-builder/store/layer-store";
 import { AddComponentsPopover } from "@/components/ui/ui-builder/internal/add-component-popover";
 import { cn } from "@/lib/utils";
-import { hasLayerChildren } from "@/lib/ui-builder/store/layer-utils";
+import { hasLayerChildren } from "@/components/ui-builder/store/layer-utils";
 
 interface MenuProps {
   layerId: string;

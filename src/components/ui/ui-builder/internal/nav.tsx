@@ -28,7 +28,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useLayerStore, PageLayer } from "@/lib/ui-builder/store/layer-store";
+import { useLayerStore, PageLayer } from "@/components/ui-builder/store/layer-store";
 import LayerRenderer from "@/components/ui/ui-builder/layer-renderer";
 import { useTheme } from "next-themes";
 import {
@@ -59,7 +59,7 @@ import { CodePanel } from "@/components/ui/ui-builder/code-panel";
 import {
   EditorStore,
   useEditorStore,
-} from "@/lib/ui-builder/store/editor-store";
+} from "@/components/ui-builder/store/editor-store";
 import {
   Tooltip,
   TooltipContent,

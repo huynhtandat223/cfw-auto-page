@@ -4,12 +4,12 @@ import {
   useLayerStore,
   PageLayer,
   Layer,
-} from "@/lib/ui-builder/store/layer-store";
+} from "@/components/ui-builder/store/layer-store";
 import { Button } from "@/components/ui/button";
 import AutoForm from "@/components/ui/auto-form";
 import { AutoFormInputComponentProps } from "@/components/ui/auto-form/types";
 import ClassNameField from "@/components/ui/ui-builder/internal/classname-field";
-import { addDefaultValues } from "@/lib/ui-builder/store/schema-utils";
+import { addDefaultValues } from "@/components/ui-builder/store/schema-utils";
 
 export const ConfigPanel = () => {
   const {

@@ -6,13 +6,13 @@ import isDeepEqual from "fast-deep-equal";
 import React, { memo, Suspense, useRef } from "react";
 
 import { ClickableWrapper } from "@/components/ui/ui-builder/internal/clickable-wrapper";
-import { componentRegistry, Layer, PageLayer } from "@/lib/ui-builder/store/layer-store";
+import { componentRegistry, Layer, PageLayer } from "@/components/ui-builder/store/layer-store";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { DevProfiler } from "@/components/ui/ui-builder/internal/dev-profiler";
 import { ErrorFallback } from "@/components/ui/ui-builder/internal/error-fallback";
-import { isPrimitiveComponent } from "@/lib/ui-builder/registry/registry-utils";
-import { hasLayerChildren } from "@/lib/ui-builder/store/layer-utils";
+import { isPrimitiveComponent } from "@/components/ui-builder/registry/registry-utils";
+import { hasLayerChildren } from "@/components/ui-builder/store/layer-utils";
 
 export interface EditorConfig {
   zIndex: number;

@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import {
   PageLayer,
   useLayerStore,
-} from "@/lib/ui-builder/store/layer-store";
+} from "@/components/ui-builder/store/layer-store";
 import { Toggle } from "@/components/ui/toggle";
 import { themeToStyleVars } from "@/components/ui/ui-builder/internal/render-utils";
 

@@ -15,7 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { componentRegistry, useLayerStore } from "@/lib/ui-builder/store/layer-store";
+import { componentRegistry, useLayerStore } from "@/components/ui-builder/store/layer-store";
 import { cn } from "@/lib/utils";
 
 type AddComponentsPopoverProps = {

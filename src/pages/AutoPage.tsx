@@ -1,20 +1,21 @@
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { Header } from "@/components/layout/header";
 import { Main } from "@/components/layout/main";
-import LayerRenderer from "@/components/page-builder/layer-renderer";
-import { ProfileDropdown } from "@/components/profile-dropdown";
-import { Search } from "@/components/search";
+import { ProfileDropdown, Search, ThemeSwitch } from "@/components/ui-builder";
 import SkipToMain from "@/components/skip-to-main";
-import { ThemeSwitch } from "@/components/theme-switch";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { SearchProvider } from "@/context/search-context";
-import { useLayerStore } from "@/lib/ui-builder/store/layer-store";
+import { useLayerStore } from "@/components/ui-builder/store/layer-store";
 import { cn } from "@/lib/utils";
 import { Outlet, ReactNode, useLocation } from "@tanstack/react-router";
 import Cookies from "js-cookie";
-import { useMemo } from "react";
+import { Suspense, lazy, useMemo } from "react";
 import { Toaster } from "sonner";
 import { useStore } from "zustand";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+
+// Lazy load the LayerRenderer component
+const LayerRenderer = lazy(() => import("@/components/ui-builder/components/PageBuilder/layer-renderer"));
 
 export function Test() {
   const { pages } = useStore(useLayerStore, (state) => state);
@@ -27,7 +28,9 @@ export function Test() {
 
   return (
     <ShadcnAdminLayout>
-      <LayerRenderer page={page!} />
+      <Suspense fallback={<LoadingSpinner size="lg" className="h-[50vh]" />}>
+        <LayerRenderer page={page!} />
+      </Suspense>
     </ShadcnAdminLayout>
   );
 }

@@ -15,9 +15,9 @@ import {
 } from "@/components/ui/resizable";
 import { Button } from "@/components/ui/button";
 import { ConfigPanel } from "@/components/ui/ui-builder/internal/config-panel";
-import { PageLayer, useLayerStore } from "@/lib/ui-builder/store/layer-store";
+import { PageLayer, useLayerStore } from "@/components/ui-builder/store/layer-store";
 import { useStore } from "@/hooks/use-store";
-import { useEditorStore } from "@/lib/ui-builder/store/editor-store";
+import { useEditorStore } from "@/components/ui-builder/store/editor-store";
 
 interface UIBuilderProps {
   initialLayers?: PageLayer[];

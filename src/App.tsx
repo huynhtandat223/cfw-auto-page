@@ -8,12 +8,12 @@ import {
 import "./index.css";
 
 import { IconChecklist, IconLayoutDashboard } from "@tabler/icons-react";
-import PageBuilder from "./components/page-builder";
+import { PageBuilder } from "./components/ui-builder";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { LoadingSpinner } from "./components/LoadingSpinner";
 import { FontProvider } from "./context/font-context";
 import { ThemeProvider } from "./context/theme-context";
-import { useLayerStore } from "./lib/ui-builder/store/layer-store";
+import { useLayerStore } from "./components/ui-builder/store/layer-store";
 import { Test } from "./pages/AutoPage";
 import { InputForm } from "./pages/Test";
 

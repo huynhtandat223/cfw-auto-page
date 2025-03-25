@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   PageLayer,
   useLayerStore,
-} from "@/lib/ui-builder/store/layer-store";
+} from "@/components/ui-builder/store/layer-store";
 import { pageLayerToCode } from "@/components/ui/ui-builder/internal/templates";
 import { CodeBlock } from "@/components/ui/ui-builder/codeblock";
 import { cn } from "@/lib/utils";

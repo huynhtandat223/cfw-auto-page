@@ -7,7 +7,7 @@ import {
 } from "@use-gesture/react";
 import { Button } from "@/components/ui/button";
 import { ZoomIn, ZoomOut } from "lucide-react";
-import { useEditorStore } from "@/lib/ui-builder/store/editor-store";
+import { useEditorStore } from "@/components/ui-builder/store/editor-store";
 
 const MAX_TRANSLATION = 6000;
 const MIN_SCALE = 0.1;

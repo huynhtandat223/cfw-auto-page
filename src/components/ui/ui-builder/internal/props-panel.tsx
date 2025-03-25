@@ -4,12 +4,12 @@ import {
   useLayerStore,
   ComponentLayer,
   Layer,
-} from "@/lib/ui-builder/store/layer-store";
-import { componentRegistry } from "@/lib/ui-builder/registry/component-registry";
+} from "@/components/ui-builder/store/layer-store";
+import { componentRegistry } from "@/components/ui-builder/registry/component-registry";
 import { Button } from "@/components/ui/button";
 import AutoForm from "@/components/ui/auto-form";
-import { generateFieldOverrides } from "@/lib/ui-builder/registry/component-registry";
-import { addDefaultValues } from "@/lib/ui-builder/store/schema-utils";
+import { generateFieldOverrides } from "@/components/ui-builder/registry/component-registry";
+import { addDefaultValues } from "@/components/ui-builder/store/schema-utils";
 
 interface PropsPanelProps {
   className?: string;

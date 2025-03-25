@@ -1,11 +1,11 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
 import isDeepEqual from "fast-deep-equal";
-import { Layer, useLayerStore } from "@/lib/ui-builder/store/layer-store";
+import { Layer, useLayerStore } from "@/components/ui-builder/store/layer-store";
 import { cn } from "@/lib/utils";
 import {
   findAllParentLayersRecursive,
   hasLayerChildren,
-} from "@/lib/ui-builder/store/layer-utils";
+} from "@/components/ui-builder/store/layer-utils";
 import { Plus } from "lucide-react";
 import { useHeTree, Id } from "he-tree-react";
 import {

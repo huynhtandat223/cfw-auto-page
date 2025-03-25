@@ -17,8 +17,8 @@ import {
 } from "@tabler/icons-react";
 import { useNavigate } from "@tanstack/react-router";
 import React from "react";
-import { useSearch } from "../context/search-context";
-import { useTheme } from "../context/theme-context";
+import { useSearch } from "@/context/search-context";
+import { useTheme } from "@/context/theme-context";
 
 export function CommandMenu() {
   const navigate = useNavigate();
@@ -41,38 +41,20 @@ export function CommandMenu() {
           <CommandEmpty>No results found.</CommandEmpty>
           {navGroups.map((group) => (
             <CommandGroup key={group.title} heading={group.title}>
-              {group.items.map((navItem, i) => {
-                if (navItem.url)
-                  return (
-                    <CommandItem
-                      key={`${navItem.url}-${i}`}
-                      value={navItem.title}
-                      onSelect={() => {
-                        runCommand(() => navigate({ to: navItem.url }));
-                      }}
-                    >
-                      <div className="mr-2 flex h-4 w-4 items-center justify-center">
-                        <IconArrowRightDashed className="size-2 text-muted-foreground/80" />
-                      </div>
-                      {navItem.title}
-                    </CommandItem>
-                  );
-
-                return navItem.items?.map((subItem, i) => (
-                  <CommandItem
-                    key={`${subItem.url}-${i}`}
-                    value={subItem.title}
-                    onSelect={() => {
-                      runCommand(() => navigate({ to: subItem.url }));
-                    }}
-                  >
-                    <div className="mr-2 flex h-4 w-4 items-center justify-center">
-                      <IconArrowRightDashed className="size-2 text-muted-foreground/80" />
-                    </div>
-                    {subItem.title}
-                  </CommandItem>
-                ));
-              })}
+              {group.items.map((navItem, i) => (
+                <CommandItem
+                  key={`${navItem.url}-${i}`}
+                  value={navItem.title}
+                  onSelect={() => {
+                    runCommand(() => navigate({ to: navItem.url }));
+                  }}
+                >
+                  <div className="mr-2 flex h-4 w-4 items-center justify-center">
+                    <IconArrowRightDashed className="size-2 text-muted-foreground/80" />
+                  </div>
+                  {navItem.title}
+                </CommandItem>
+              ))}
             </CommandGroup>
           ))}
           <CommandSeparator />

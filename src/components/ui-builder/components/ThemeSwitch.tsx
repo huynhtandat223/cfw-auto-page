@@ -8,7 +8,7 @@ import {
 import { cn } from "@/lib/utils";
 import { IconCheck, IconMoon, IconSun } from "@tabler/icons-react";
 import { useEffect } from "react";
-import { useTheme } from "../context/theme-context";
+import { useTheme } from "@/context/theme-context";
 
 export function ThemeSwitch() {
   const { theme, setTheme } = useTheme();

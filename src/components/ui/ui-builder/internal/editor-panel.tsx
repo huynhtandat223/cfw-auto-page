@@ -5,11 +5,11 @@ import {
   Layer,
   PageLayer,
   useLayerStore,
-} from "@/lib/ui-builder/store/layer-store";
+} from "@/components/ui-builder/store/layer-store";
 import LayerRenderer from "@/components/ui/ui-builder/layer-renderer";
 import { cn } from "@/lib/utils";
 import { IframeWrapper } from "@/components/ui/ui-builder/internal/iframe-wrapper";
-import { useEditorStore } from "@/lib/ui-builder/store/editor-store";
+import { useEditorStore } from "@/components/ui-builder/store/editor-store";
 import { InteractiveCanvas } from "@/components/ui/ui-builder/internal/interactive-canvas";
 import { AddComponentsPopover } from "@/components/ui/ui-builder/internal/add-component-popover";
 import { Button } from "@/components/ui/button";
